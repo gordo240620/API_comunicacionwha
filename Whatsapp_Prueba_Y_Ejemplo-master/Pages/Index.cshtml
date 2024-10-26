@@ -1,0 +1,40 @@
+﻿@page
+@model IndexModel
+@using System.Net.Http.Headers
+@using WhatsappBusiness.CloudApi
+@using WhatsappBusiness.CloudApi.Configurations
+@using WhatsappBusiness.CloudApi.Interfaces
+@{
+    ViewData["Title"] = "Home page";
+
+    //TOKEN
+    string token = "EAAPdbIEju9UBO0w2mO0orxy6m0DPEJOt3Qi6Ja7AWOFwJRuDZAGmiO8HCwqjsHI8T5lzGqFdc1WTA27rzLjvNSIhCuH4GN0CuCdvydg1QdLSc69NZAuzZAPD0liZB4CAfRBzxqf9QB5ccPrBBCb3NZAvjGmv2t6MBz4d5ZA1t0KqAMS0zjCwglFCc3e3Xo0eFjstIPMvXZCPPOMTCHzBKWlcLEQ2kLFZBwZDZD";
+
+    //TELEFONO API
+    string idTelfono = "446912295174914";
+
+    //TELEFONO A ENVIAR
+    string telefono = "526442539576";
+
+    HttpClient client = new HttpClient();
+
+
+
+    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://graph.facebook.com/v15.0/" + idTelfono + "/messages");
+
+    request.Headers.Add("Authorization", "Bearer " + token);
+
+    request.Content = new StringContent("{ \"messaging_product\": \"whatsapp\", \"to\": \"" + telefono + "\", \"type\": \"template\", \"template\": { \"name\": \"hello_world\", \"language\": { \"code\": \"en_US\" } } }");
+    request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+    HttpResponseMessage response = await client.SendAsync(request);
+    //response.EnsureSuccessStatusCode();
+    string responseBody = await response.Content.ReadAsStringAsync();    
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <textarea></textarea>
+</div>
